@@ -1,0 +1,31 @@
+
+
+
+install
+
+    # apt instal docker docker.io
+    apt install docker-ce
+
+    docker version
+
+    sudo systemctl start docker
+
+
+    docker run hello-world
+    docker run -it ubuntu bash
+
+镜像加速
+
+    /etc/docker/daemon.json
+    {"registry-mirrors":["https://registry.docker-cn.com"]}
+
+    sudo systemctl restart docker
+
+
+docker image
+
+
+
+
+docker container
+
