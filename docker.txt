@@ -1,5 +1,7 @@
 
 
+docker
+
 
 install
 
@@ -17,15 +19,109 @@ install
 镜像加速
 
     /etc/docker/daemon.json
-    {"registry-mirrors":["https://registry.docker-cn.com"]}
+    {"registry-mirrors":["https://eqcxmbvw.mirror.aliyuncs.com"]}
 
     sudo systemctl restart docker
 
 
+
+镜像， 容器， 启停， shell
+
+
 docker image
 
+    docker image ls
+    docker images
+
+    docker pull <image name>
 
 
 
 docker container
+
+
+    docker ps
+    docker ps -a
+
+
+    // image -> container id, file system -> run, process group
+    // 从镜像到shell
+    // 容器生命期与主进程相同
+    docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+        -i, --interactive                    Keep STDIN open even if not attached
+        -t, --tty                            Allocate a pseudo-TTY
+        -d, --detach                         Run container in background and print container ID
+        -p, --publish list                   Publish a container's port(s) to the host
+        -P, --publish-all                    Publish all exposed ports to random ports
+    docker run ubuntu:15.10 /bin/echo "Hello world"
+    docker run -it ubuntu:15.10 /bin/bash
+    docker run -d ubuntu:15.10 /bin/sh -c "while true; do echo hello world; sleep 1; done"
+    docker run -itd --name ubuntu-test ubuntu /bin/bash
+    docker run -it --mount type=bind,source=$(shell pwd),destination=/mnt/rcore panqinglin/tutorial
+    docker run -d -P training/webapp python app.py
+    docker run -d -p 5000:5000 training/webapp python app.py
+
+    docker create
+    docker rm <container id>
+    //干掉所有exit容器
+    docker container prune
+
+
+    docker start <container id>
+    docker stop  <container id>
+    docker kill  <container id>
+
+    
+    // attach 和 exec 都需要容器运行
+    // attach 退出会导致容器退出
+    docker attach <container id>
+        attach 进入已有主进程
+
+
+    // exec 必须输入命令，run默认命令/bin/bash
+    // exec 退出不会导致容器退出
+    docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+    docker exec -it 243c32535da7 /bin/bash
+        exec 执行新命令
+
+
+
+    docker logs <container id>
+    docker top  <container id>
+    docker port <container id>
+    docker inspect <container id>
+
+    docker start & docker attach
+
+
+
+
+container status
+
+created（已创建）
+restarting（重启中）
+running（运行中）
+removing（迁移中）
+paused（暂停）
+exited（停止）
+dead（死亡）
+
+
+
+image  --->  container  --->  process
+       存亡              生死
+
+run: image -> [main] process
+
+create:
+rm: container -> none
+
+start: container -> [main] process
+stop: process -> container
+
+attach: enter main process
+exec: [main] process -> new process
+
+
 

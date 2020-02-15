@@ -1,0 +1,13 @@
+famous images
+
+hello-world
+    docker run hello-world
+
+
+ubuntu
+debian
+    docker run -it debian
+
+nginx
+    docker run -d -P nginx
+
